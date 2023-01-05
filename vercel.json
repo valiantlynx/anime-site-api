@@ -1,9 +1,16 @@
 {
-    "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }],
-    
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    }
+  ],
+  "build": {
+    "env": {
+      "API_URL": "http://localhost:5000/"
+    }
+  },
   "github": {
     "silent": true
   }
-
-    
-  }
+}
