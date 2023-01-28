@@ -29,7 +29,9 @@ app.get("/api/popular/:page", (req, res) => {
     return res.status(404).json({ results });
   }
   url = `${baseURL}popular.html?page=${req.params.page}`;
+
   rs(url, (error, response, html) => {
+   
     if (!error) {
       try {
         var $ = cheerio.load(html);
@@ -40,12 +42,14 @@ app.get("/api/popular/:page", (req, res) => {
 
           results[index] = { title, id, image };
         });
+        
         res.status(200).json({ results });
       } catch (e) {
         res.status(404).json({ e: "404 fuck off!!!!!" });
       }
     }
   });
+  res.send(results);
 });
 
 app.get("/api/details/:id", (req, res) => {
@@ -106,6 +110,7 @@ app.get("/api/details/:id", (req, res) => {
       }
     }
   });
+  res.send(results);
 });
 
 app.get("/api/search/:word/:page", (req, res) => {
@@ -146,10 +151,13 @@ async function getLink(Link) {
           links.push(e.attribs.href);
         }
       });
+
       return links;
     }
   });
+
 }
+
 
 app.get("/api/watching/:id/:episode", (req, res) => {
   let link = "";
@@ -212,6 +220,7 @@ app.get("/api/watching/:id/:episode", (req, res) => {
       }
     }
   });
+  res.send(link);
 });
 
 app.get("/api/genre/:type/:page", (req, res) => {
@@ -240,6 +249,7 @@ app.get("/api/genre/:type/:page", (req, res) => {
       }
     }
   });
+  res.send(results);
 });
 
 app.get("/api/recentlyadded/:page", (req, res) => {
@@ -274,6 +284,7 @@ app.get("/api/recentlyadded/:page", (req, res) => {
       }
     }
   });
+  res.send(results);
 });
 
 app.get("/api/genrelist", (req, res) => {
@@ -297,6 +308,7 @@ app.get("/api/genrelist", (req, res) => {
       }
     }
   });
+  res.send(list);
 });
 
 app.get("/api/list/:variable/:page", (req, res) => {
@@ -333,6 +345,8 @@ app.get("/api/list/:variable/:page", (req, res) => {
       }
     }
   });
+
+  res.send(list);
 });
 
 app.listen(port, () => console.log("running on 5000"));
