@@ -13,17 +13,100 @@ const baseURL = "https://gogoanime.ai/";
 
 app.get("/api/home", (req, res) => {
   let info = {
-    popular: {recipe: `${hostURL}/api/popular/:page`, test: `${hostURL}/api/popular/2`},
-    details: {recipe: `${hostURL}/api/details/:id`, test: `${hostURL}/api/details/gintama`},
-    search: {recipe: `${hostURL}/api/search/:word/:page`, test: `${hostURL}/api/search/killer/1`},
-    episode_link: {recipe: `${hostURL}/api/watching/:id/:episode`, test: `${hostURL}/api/watching/gintama/50`},
-    genre: {recipe: `${hostURL}/api/genre/:type/:page`, test: `${hostURL}/api/genre/action/2`},
-    recently_added: {recipe: `${hostURL}/api/recentlyadded/:page`, test: `${hostURL}/api/recentlyadded/1`},
-    anime_list: {recipe: `${hostURL}/api/list/:variable/:page`, test: `${hostURL}/api/list/one/1`},
-    genrelist: {recipe: `${hostURL}/api/genrelist`, test: `${hostURL}/api/genrelist`},
+    popular: { recipe: `${hostURL}/api/popular/:page`, test: `${hostURL}/api/popular/2` },
+    details: { recipe: `${hostURL}/api/details/:id`, test: `${hostURL}/api/details/gintama` },
+    search: { recipe: `${hostURL}/api/search/:word/:page`, test: `${hostURL}/api/search/killer/1` },
+    episode_link: { recipe: `${hostURL}/api/watching/:id/:episode`, test: `${hostURL}/api/watching/gintama/50` },
+    genre: { recipe: `${hostURL}/api/genre/:type/:page`, test: `${hostURL}/api/genre/action/2` },
+    recently_added: { recipe: `${hostURL}/api/recentlyadded/:page`, test: `${hostURL}/api/recentlyadded/1` },
+    anime_list: { recipe: `${hostURL}/api/list/:variable/:page`, test: `${hostURL}/api/list/one/1` },
+    genrelist: { recipe: `${hostURL}/api/genrelist`, test: `${hostURL}/api/genrelist` },
   };
   res.send(info);
 });
+
+app.get("/", (req, res) => {
+  const welcomeMessage = "Welcome to AnimeVariant API!";
+  const apiInfo = {
+    version: "1.0.0",
+    author: "Valiantlynx",
+    description: "An API for accessing anime information and resources.",
+    endpoints: [
+      {
+        path: "/api/home",
+        description: "Get information about available API endpoints. They are also listed here.",
+        params: {}
+      },
+      {
+        path: "/api/popular/:page",
+        description: "Get a list of popular anime.",
+        params: {
+          page: "an integer representing the page number",
+        }
+      },
+      {
+        path: "/api/details/:id",
+        description: "Get details of a specific anime by ID. ",
+        params: {
+          id: "The correct name of the anime",
+        }
+      },
+      {
+        path: "/api/search/:word/:page",
+        description: "Search for anime by a keyword.",
+        params: {
+          word: "The keyword to search for",
+          page: "an integer representing the page number",
+        }
+      },
+      {
+        path: "/api/watching/:id/:episode",
+        description: "Get the video links for a specific episode of an anime.",
+        params: {
+          id: "The correct name of the anime",
+          episode: "an integer representing the episode number",
+        }
+      },
+      {
+        path: "/api/genre/:type/:page",
+        description: "Get a list of anime by genre.",
+        params: {
+          type: "The genre of the anime",
+          page: "an integer representing the page number",
+        }
+      },
+      {
+        path: "/api/recentlyadded/:page",
+        description: "Get a list of recently added anime.",
+        params: {
+          page: "an integer representing the page number",
+        }
+      },
+      {
+        path: "/api/list/:variable/:page",
+        description: "Get a list of anime based on a variable.",
+        params: {
+          variable: "The variable to filter the list",
+          page: "an integer representing the page number",
+        }
+      },
+      {
+        path: "/api/genrelist",
+        description: "Get a list of available anime genres.",
+        params: {}
+      },
+      // Add other endpoints here
+    ],
+  };
+
+  const response = {
+    message: welcomeMessage,
+    api: apiInfo,
+  };
+
+  res.json(response);
+});
+
 
 // page is a number
 app.get("/api/popular/:page", (req, res) => {
@@ -35,7 +118,7 @@ app.get("/api/popular/:page", (req, res) => {
   url = `${baseURL}popular.html?page=${req.params.page}`;
 
   rs(url, (error, response, html) => {
-   
+
     if (!error) {
       try {
         var $ = cheerio.load(html);
@@ -46,7 +129,7 @@ app.get("/api/popular/:page", (req, res) => {
 
           results[index] = { title, id, image };
         });
-        
+
         res.status(200).json({ results });
       } catch (e) {
         res.status(404).json({ e: "404 fuck off!!!!!" });
@@ -110,7 +193,7 @@ app.get("/api/details/:id", (req, res) => {
           Othername,
         };
         res.status(200).json({ results });
-       
+
       } catch (e) {
         res.status(404).json({ e: "404 fuck off!!!!!" });
       }
@@ -312,7 +395,7 @@ app.get("/api/genrelist", (req, res) => {
           });
 
         res.status(200).json({ list });
-      
+
       } catch (e) {
         res.status(404).json({ e: "404 fuck off!!!!!" });
       }
