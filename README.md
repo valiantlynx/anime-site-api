@@ -22,14 +22,4 @@ node api
 - [Express](https://expressjs.com/)
 - [Cheerio](https://cheerio.js.org/)
 
-## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## Authors
-
-- **Ayush kumar Rout** - _Development_ - [AyushRout](https://github.com/routayush1)
-- **Gaurav** - _Development_ - [Gaurav](https://github.com/gauravdh9)
-- **Soham Singh Yadav** - _Development_ - [SohamSingh](https://github.com/sohamsingh29)
