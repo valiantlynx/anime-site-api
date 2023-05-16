@@ -3,7 +3,7 @@ const { v4 } = require("uuid");
 const cheerio = require("cheerio");
 const cors = require("cors");
 const rs = require("request");
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 
