@@ -25,7 +25,7 @@ app.get("/api/home", (req, res) => {
   res.send(info);
 });
 
-app.get("/", (req, res) => {
+app.get("/docs", (req, res) => {
   const welcomeMessage = "Welcome to AnimeVariant API!";
   const apiInfo = {
     version: "1.0.0",
