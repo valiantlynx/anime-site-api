@@ -11,17 +11,19 @@ const baseURL = "https://gogoanime.ai/";
 
 app.get("/api/home", (req, res) => {
   let info = {
-    popular: "https://anime-x.vercel.app/api/popular/:page",
-    details: "https://anime-x.vercel.app/api/details/:id",
-    search: "https://anime-x.vercel.app/api/search/:word/:page",
-    episode_link: "https://anime-x.vercel.app/api/watching/:id/:episode",
-    genre: "https://anime-x.vercel.app/api/genre/:type/:page",
-    recently_added: "https://anime-x.vercel.app/api/recentlyadded/:page",
-    anime_list: "https://anime-x.vercel.app/api/list/:page",
-    genrelist: "https://anime-x.vercel.app/api/genrelist",
+    popular: {recipe: "http://localhost:3000/api/popular/:page", test: "http://localhost:3000/api/popular/2"},
+    details: {recipe: "http://localhost:3000/api/details/:id", test: "http://localhost:3000/api/details/gintama"},
+    search: {recipe: "http://localhost:3000/api/search/:word/:page", test: "http://localhost:3000/api/search/killer/1"},
+    episode_link: {recipe: "http://localhost:3000/api/watching/:id/:episode", test: "http://localhost:3000/api/watching/gintama/50"},
+    genre: {recipe: "http://localhost:3000/api/genre/:type/:page", test: "http://localhost:3000/api/genre/action/2"},
+    recently_added: {recipe: "http://localhost:3000/api/recentlyadded/:page", test: "http://localhost:3000/api/recentlyadded/1"},
+    anime_list: {recipe: "http://localhost:3000/api/list/:variable/:page", test: "http://localhost:3000/api/list/one/1"},
+    genrelist: {recipe: "http://localhost:3000/api/genrelist", test: "http://localhost:3000/api/genrelist"},
   };
   res.send(info);
 });
+
+// page is a number
 app.get("/api/popular/:page", (req, res) => {
   let results = [];
   let page = req.params.page;
@@ -49,9 +51,10 @@ app.get("/api/popular/:page", (req, res) => {
       }
     }
   });
-  res.send(results);
+  // res.send(results); 
 });
 
+// id is anime name
 app.get("/api/details/:id", (req, res) => {
   let results = [];
 
@@ -105,14 +108,16 @@ app.get("/api/details/:id", (req, res) => {
           Othername,
         };
         res.status(200).json({ results });
+       
       } catch (e) {
         res.status(404).json({ e: "404 fuck off!!!!!" });
       }
     }
   });
-  res.send(results);
+  // res.send(results);
 });
 
+// word is any word, page is an integer
 app.get("/api/search/:word/:page", (req, res) => {
   let results = [];
   var word = req.params.word;
@@ -155,10 +160,9 @@ async function getLink(Link) {
       return links;
     }
   });
-
 }
 
-
+// id is anime episode is int, not sure if it works need more testing
 app.get("/api/watching/:id/:episode", (req, res) => {
   let link = "";
   let nl = [];
@@ -220,9 +224,10 @@ app.get("/api/watching/:id/:episode", (req, res) => {
       }
     }
   });
-  res.send(link);
+  // res.send(link);
 });
 
+// type is the genre, page is int
 app.get("/api/genre/:type/:page", (req, res) => {
   var results = [];
   var type = req.params.type;
@@ -249,9 +254,10 @@ app.get("/api/genre/:type/:page", (req, res) => {
       }
     }
   });
-  res.send(results);
+  // res.send(results);
 });
 
+// page is int
 app.get("/api/recentlyadded/:page", (req, res) => {
   var page = req.params.page;
   var results = [];
@@ -284,9 +290,10 @@ app.get("/api/recentlyadded/:page", (req, res) => {
       }
     }
   });
-  res.send(results);
+  // res.send(results);
 });
 
+// no params needed
 app.get("/api/genrelist", (req, res) => {
   var list = [];
 
@@ -303,14 +310,16 @@ app.get("/api/genrelist", (req, res) => {
           });
 
         res.status(200).json({ list });
+      
       } catch (e) {
         res.status(404).json({ e: "404 fuck off!!!!!" });
       }
     }
   });
-  res.send(list);
+  // res.send(list);
 });
 
+// variable is anything, useally html for all, any number, any word, any alphabet,  page is int
 app.get("/api/list/:variable/:page", (req, res) => {
   var list = [];
   var page = req.params.page;
@@ -346,7 +355,7 @@ app.get("/api/list/:variable/:page", (req, res) => {
     }
   });
 
-  res.send(list);
+  // res.send(list);
 });
 
 app.listen(port, () => console.log("running on 3000"));
