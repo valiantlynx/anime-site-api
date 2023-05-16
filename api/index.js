@@ -1,9 +1,11 @@
+require('dotenv').config();
 const app = require("express")();
 const { v4 } = require("uuid");
 const cheerio = require("cheerio");
 const cors = require("cors");
 const rs = require("request");
 const port = process.env.PORT || 3000;
+const hostURL = process.env.HOST_URL
 
 app.use(cors());
 
@@ -11,14 +13,14 @@ const baseURL = "https://gogoanime.ai/";
 
 app.get("/api/home", (req, res) => {
   let info = {
-    popular: {recipe: "http://localhost:3000/api/popular/:page", test: "http://localhost:3000/api/popular/2"},
-    details: {recipe: "http://localhost:3000/api/details/:id", test: "http://localhost:3000/api/details/gintama"},
-    search: {recipe: "http://localhost:3000/api/search/:word/:page", test: "http://localhost:3000/api/search/killer/1"},
-    episode_link: {recipe: "http://localhost:3000/api/watching/:id/:episode", test: "http://localhost:3000/api/watching/gintama/50"},
-    genre: {recipe: "http://localhost:3000/api/genre/:type/:page", test: "http://localhost:3000/api/genre/action/2"},
-    recently_added: {recipe: "http://localhost:3000/api/recentlyadded/:page", test: "http://localhost:3000/api/recentlyadded/1"},
-    anime_list: {recipe: "http://localhost:3000/api/list/:variable/:page", test: "http://localhost:3000/api/list/one/1"},
-    genrelist: {recipe: "http://localhost:3000/api/genrelist", test: "http://localhost:3000/api/genrelist"},
+    popular: {recipe: `${hostURL}/api/popular/:page`, test: `${hostURL}/api/popular/2`},
+    details: {recipe: `${hostURL}/api/details/:id`, test: `${hostURL}/api/details/gintama`},
+    search: {recipe: `${hostURL}/api/search/:word/:page`, test: `${hostURL}/api/search/killer/1`},
+    episode_link: {recipe: `${hostURL}/api/watching/:id/:episode`, test: `${hostURL}/api/watching/gintama/50`},
+    genre: {recipe: `${hostURL}/api/genre/:type/:page`, test: `${hostURL}/api/genre/action/2`},
+    recently_added: {recipe: `${hostURL}/api/recentlyadded/:page`, test: `${hostURL}/api/recentlyadded/1`},
+    anime_list: {recipe: `${hostURL}/api/list/:variable/:page`, test: `${hostURL}/api/list/one/1`},
+    genrelist: {recipe: `${hostURL}/api/genrelist`, test: `${hostURL}/api/genrelist`},
   };
   res.send(info);
 });
@@ -358,6 +360,6 @@ app.get("/api/list/:variable/:page", (req, res) => {
   // res.send(list);
 });
 
-app.listen(port, () => console.log("running on 3000"));
+app.listen(port, () => console.log(`running on ${port}`));
 
 module.exports = app;
