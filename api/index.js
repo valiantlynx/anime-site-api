@@ -104,9 +104,8 @@ app.get("/", (req, res) => {
     api: apiInfo,
   };
 
-  res.json(response);
+  res.send(response);
 });
-
 
 // page is a number
 app.get("/api/popular/:page", (req, res) => {
