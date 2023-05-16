@@ -5,5 +5,5 @@ COPY package-lock.json ./
 COPY ./ ./
 RUN npm i
 RUN npm install -g nodemon@latest
-EXPOSE 5000
+EXPOSE 3000
 CMD ["npm", "start"]
