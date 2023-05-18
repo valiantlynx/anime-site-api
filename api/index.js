@@ -253,11 +253,13 @@ app.get("/api/watching/:id/:episode", (req, res) => {
   var totalepisode = [];
   var id = req.params.id;
   var episode = req.params.episode;
+
   url = `${baseURL + id}-episode-${episode}`;
   rs(url, async (err, resp, html) => {
     if (!err) {
       try {
         var $ = cheerio.load(html);
+
 
         if ($(".entry-title").text() === "404") {
           return res
@@ -273,8 +275,13 @@ app.get("/api/watching/:id/:episode", (req, res) => {
           .split("-");
         totalepisode = totalepisode[totalepisode.length - 1];
         link = $("li.anime").children("a").attr("data-video");
-        const cl = "http:" + link.replace("streaming.php", "download");
+
+        //  const cl = "http:" + link.replace("streaming.php", "download");
+        // it looks like the link is not working anymore
+        const cl = link.replace("streaming.php", "download");
+
         rs(cl, (err, resp, html) => {
+
           if (!err) {
             try {
               var $ = cheerio.load(html);
@@ -291,6 +298,7 @@ app.get("/api/watching/:id/:episode", (req, res) => {
                   });
                 }
               });
+            
               return res
                 .status(200)
                 .json({ links: nl, link, totalepisode: totalepisode });
@@ -301,6 +309,7 @@ app.get("/api/watching/:id/:episode", (req, res) => {
             }
           }
         });
+
       } catch (e) {
         return res
           .status(404)
