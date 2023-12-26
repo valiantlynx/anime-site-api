@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "api/index.js",
+  "private": true,
   "scripts": {
     "start": "nodemon api",
     "docker": "docker-compose up -d --build anime-site-api",
